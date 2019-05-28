@@ -27,7 +27,7 @@ router.post("/", async (req, res) => {
 // router.post("/:id/comments", async (req, res) => {
 //   try {
 //     const { text } = await req.body;
-//     db.insertComment(text).then(comment => {
+//     db.insertComment({text}).then(comment => {
 //       res.status(200).json(comment);
 //     });
 //   } catch (error) {
@@ -41,7 +41,17 @@ router.get("/", async (req, res) => {
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "error retrieving comments" });
+        res.status(500).json({ message: "error retrieving posts" });
     }
+});
+
+router.get("/:id", async (req, res) => {
+    try {
+        const postsById = await db.findById(req.params.id);
+        res.status(200).json(postsById);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "error retrieving post" });
+    };
 });
 module.exports = router;
